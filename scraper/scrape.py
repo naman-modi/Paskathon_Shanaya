@@ -22,13 +22,16 @@ for entry in linklist.findAll('li',attrs ={'class': 'result-row' }):
     link_contents = link_driver.page_source
     link_soup = BeautifulSoup(link_contents,features="html.parser")
     sleep(2)
-    target = link_soup.find("span",attrs = {'id': 'titletextonly'})
-    info['title'] = target.text
-    print(info['title'])
-    info['info'] = link_soup.find('section',attrs ={'id' : 'postingbody'}).text
-    target = link_soup.find('p',attrs = {'class': 'attrgroup'})
-    info['compensation'] = target.findAll('b')[0].text
-    info['job_type'] = target.findAll('b')[1].text
+    try:
+        target = link_soup.find("span",attrs = {'id': 'titletextonly'})
+        info['title'] = target.text
+        print(info['title'])
+        info['info'] = link_soup.find('section',attrs ={'id' : 'postingbody'}).text
+        target = link_soup.find('p',attrs = {'class': 'attrgroup'})
+        info['compensation'] = target.findAll('b')[0].text
+        info['job_type'] = target.findAll('b')[1].text
+    except:
+        pass
     try:
         link_driver.find_element_by_class_name('reply-button').click()
         sleep(5)
